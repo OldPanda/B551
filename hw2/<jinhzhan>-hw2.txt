@@ -1,0 +1,88 @@
+My name: Jinhui Zhang
+My username: Jinhzhan
+
+My strategy: On each move let computer agent play game with a imaginary person and find the best situation that can increase the likelihood of winning. Then it comes back from the imaginary game ending and returns the first position it chooses. Those iterations are executed between method agent_move() and human_move(). I learned this algorithm from http://blog.csdn.net/yorhomwang/article/details/8652567, and implemented it by myself. 
+
+Sample output:
+Choose the player you want to play, X or O?('X' goes first)O
+  |   |   
+  |   |   
+  |   |   
+X 's turn
+
+Please select position by typing in a number between 1 and 9, see below for which number that is which position...
+7|8|9
+4|5|6
+1|2|3
+
+Agent's choice:  9
+  |   | X 
+  |   |   
+  |   |   
+O 's turn
+
+Please select position by typing in a number between 1 and 9, see below for which number that is which position...
+7|8|9
+4|5|6
+1|2|3
+
+Select: 3
+  |   | X 
+  |   |   
+  |   | O 
+X 's turn
+
+Please select position by typing in a number between 1 and 9, see below for which number that is which position...
+7|8|9
+4|5|6
+1|2|3
+
+Agent's choice:  8
+  | X | X 
+  |   |   
+  |   | O 
+O 's turn
+
+Please select position by typing in a number between 1 and 9, see below for which number that is which position...
+7|8|9
+4|5|6
+1|2|3
+
+Select: 7
+O | X | X 
+  |   |   
+  |   | O 
+X 's turn
+
+Please select position by typing in a number between 1 and 9, see below for which number that is which position...
+7|8|9
+4|5|6
+1|2|3
+
+Agent's choice:  5
+O | X | X 
+  | X |   
+  |   | O 
+O 's turn
+
+Please select position by typing in a number between 1 and 9, see below for which number that is which position...
+7|8|9
+4|5|6
+1|2|3
+
+Select: 1
+O | X | X 
+  | X |   
+O |   | O 
+X 's turn
+
+Please select position by typing in a number between 1 and 9, see below for which number that is which position...
+7|8|9
+4|5|6
+1|2|3
+
+Agent's choice:  2
+O | X | X 
+  | X |   
+O | X | O 
+X won!!!

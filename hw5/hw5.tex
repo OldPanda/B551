@@ -1,0 +1,113 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{booktabs}
+
+\begin{document}
+\title{AI Homework 5}%replace X with the appropriate number
+\author{Jinhui Zhang\\
+jinhzhan@indiana.edu}  
+\maketitle
+
+\section{Logic}
+\begin{enumerate}
+\item R$\&$N 8.10  a, b, c, and f\\
+\textbf{a. Emily is either a surgeon or a lawyer. }\\
+$Occupation(Emily, Surgeon)\vee Occupation(Emily, Lawyer)$. \\
+\textbf{b. Joe is an actor, but he also holds another job. }\\
+$Occupation(Joe, Actor)\wedge(\exists x\, Occupation(Joe, x)\wedge (x\neq Actor))$. \\
+\textbf{c. All surgeons are doctors. }\\
+$\forall x\, Occupation(x, Surgeon)\rightarrow Occupation(x, Doctor)$. \\
+\textbf{f. There exists a lawyer all of whose customers are doctors. }\\
+$\exists x\, Occupation(x, Lawyer)\wedge(\forall y\, Customer(y, x)\rightarrow Occupation(y, Doctor))$. 
+\item R$\&$N 8.24, a, b, d\\
+Define: \begin{itemize}
+\item Student(x): x is a student. 
+\item Take(s, c, t): student s takes class c in time t. 
+\item Pass(s, c): student s passes class c. 
+\item Score(s, c, t): student s's score for class c in time t. 
+\end{itemize}
+\textbf{a. Some students took French in spring 2001. }\\
+$\exists x\, Student(x)\wedge Take(x, French, Spring 2001)$. \\
+\textbf{b. Every student who took French passes it. }\\
+$\forall x, t\, Student(x)\wedge Take(x, French, t)\rightarrow Pass(x, French)$. \\
+\textbf{d. The best score in Greek is always higher than the best score in French. }\\
+$\forall s, t\, Take(s, French, t)\rightarrow\exists s_1 Score(s_1, Greek, t)>Score(s, French, t)$. 
+\item This question assumes the propositional knowledge representation described in 7.4.3 of R$\&$N, Suppose that we know that if there is a breeze in square (1,1), there must be a pit in square (1,2) or in square (2,1).  Suppose also that there is a breeze in (1,1) and no pit in square (1,2).  Write down these facts in the propositional representation and use resolution refutation to prove that there is a pit in square (2,1). \\
+What we know: \\
+$B_{1, 1}\rightarrow P_{1, 2}\vee P_{2, 1}$\\
+$B_{1, 1}\wedge\neg P_{1, 2}$\\
+Then after eliminating $\rightarrow$, we can obtain $\neg B_{1, 1}\vee P_{1, 2}\vee P_{2, 1}$. And we do the following procedure: 
+\begin{table}[htbp]
+\caption{Resolution refutation procedure}
+\centering
+\begin{tabular}{ccc}
+\toprule
+Step & Logic Formula & Derivation\\
+\midrule
+1 & $B_{1, 1}\wedge\neg P_{1, 2}$ & Known\\
+2 & $\neg B_{1, 1}\vee P_{1, 2}\vee P_{2, 1}$ & Known\\
+3 & $B_{1, 1}$ & 1\\
+4 & $P_{1, 2}\vee P_{2, 1}$ & 2, 3\\
+5 & $\neg P_{1, 2}$ & 1\\
+6 & $P_{2, 1}$ & 4, 5\\
+\bottomrule
+\end{tabular}
+\end{table}\\
+Hence, there is a pit in square (2, 1). 
+\end{enumerate}
+\section{Reasoning Under Uncertainty}
+\begin{enumerate}
+\item A robot cleaning service sends robots out by request to clean rooms.  80$\%$ of the rooms receiving robot cleaning are cleaned properly.  Of those cleaned properly, 70$\%$ have wooden floors, while 90$\%$ of the rooms cleaned improperly don't have wooden floors.  Suppose the cleaning service receives a call from a potential client about cleaning a room with a wooden floor, and asks the probability of your robot cleaning their room properly.  What is the probability of this? \\
+Let events A = "Room is cleaned properly" and B = "The room has wooden floor". Then according to the problem, we have probabilities such that
+\begin{itemize}
+\item $P(A) = 80\%$
+\item $P(B|A) = 70\%$
+\item $P(\neg B|\neg A) = 90\%$
+\end{itemize}
+And what this problem is asking for is $P(A|B) = ?$. \\
+Since $P(B|A) = \frac{P(A\cap B)}{P(A)} = 70\%$ and $P(A) = 80\%$, $P(A\cap B) = P(B|A)\times P(A) = 56\%$. \\
+Since $P(\neg B|\neg A) = \frac{P(\neg A\cap\neg B)}{P(\neg A)} = 90\%$ and $P(\neg A) = 20\%$, $P(\neg A\cap\neg B) = P(\neg B|\neg A)\times P(\neg A) = 18\%$. \\
+$\neg(A\cup B) = (\neg A\cap\neg B)$ based on De Morgan's laws. So $P(A\cup B) = 82\%$. Then $P(B) = P(A\cup B) + P(A\cap B) - P(A) = 58\%$. \\
+Hence $P(A|B) = \frac{P(A\cap B)}{P(B)} = 96.55\%$. 
+\item Suppose we are designing a system using Bayes' rule to diagnose medical problems, with 500 diseases and 1000 symptoms.  How many probabilities would a knowledge engineer need to provide to the system?  Explain your answer.\\
+A knowledge engineer need 501500 probabilities. \\
+Firstly, we need all diseases' morbidities and occurrence rates of all symptoms. There are 1500 probabilities. \\
+Secondly, the conditional probabilities of diseases given symptoms are necessary. There are 500000 probabilities. We can get 501500 probabilities after adding them up. \\
+Based on these three kinds of probabilities, we can compute the conditional probabilities of symptoms given diseases. Usually when diagnosing medical problems, the conditional probabilities of diseases given symptoms and symptoms given diseases are all helpful. And the conditional probabilities of symptoms given diseases are not necessarily given because it is a large number and we can calculate them based on the other three probabilities. So the answer should be 501500. 
+\end{enumerate}
+
+\section{Planning}
+\begin{enumerate}
+\item Russell and Norvig 10.3 a-c\\
+\textbf{a. Write down the initial state description.} \\
+$At(Monkey, A)\wedge At(Bananas, B)\wedge At(Box, C)\wedge Height(Monkey, Low)\wedge Height(Bananas, High)\wedge Height(Box, Low)\wedge Pushable(Box)\wedge Climbable(Box)\wedge Graspable(Bananas)$. \\
+\textbf{b. Write the six action schemas.} \\
+$Op[Action: Go(x, y)$\\
+$Precond: At(Monkey, x)\wedge Path(x, y)$\\
+$Effect: At(Monkey, y)\wedge\neg At(Monkey, x)]$\\
+\\
+$Op[Action: Push(b, x, y)$\\
+$Precond: At(b, x)\wedge At(Monkey, x)\wedge Pushable(b)$\\
+$Effect: At(b, y)\wedge At(Monkey, y)$\\
+\\
+$Op[Action: ClimbUp(b)$\\
+$Precond: At(Monkey, x)\wedge At(b, x)\wedge Climbable(b)\wedge Height(Monkey, Low)$\\
+$Effect: On(Monkey, b)\wedge Height(Monkey, High)\wedge\neg Climbable(b)$\\
+\\
+$Op[Action: ClimbDown(b)$\\
+$Precond: On(Monkey, b)\wedge Height(Monkey, High)$\\
+$Effect: Height(Monkey, Low)\wedge Climbable(b)$\\
+\\
+$Op[Action: Grasp(b)$\\
+$Precond: At(Monkey, x)\wedge At(b, x)\wedge Height(Monkey, High)\wedge Graspable(b)$\\
+$Effect: \neg Graspable(b)\wedge Hold(Monkey, b)$\\
+\\
+$Op[Action: Ungrasp(b)$\\
+$Precond: Hold(Monkey, b)$\\
+$Effect: \neg Hold(Monkey, b)\wedge Height(b, Low)$\\
+\textbf{c. Suppose the monkey wants to fool the scientists, who are off to tea, by grabbing the bananas, but leaving the box in its original place. Write this as a general goal (i.e., not assuming that the box is necessarily at C) in the language of situation calculus. Can this goal be solved by a classical planning system?}\\
+Let $s_0$ be the initial situation and $s$ be the goal situation. Then the general goal is \\
+$Hold(Monkey, Bananas, s)\wedge\exists pos\, At(Box, pos, s_0)\wedge At(Box, pos, s)$. \\
+And in classical planning system, we cannot establish a relation between initial state and goal state. But here we need to put the box back where it originally was, just like in initial state. So this goal cannot be solved by a classical panning system. 
+\end{enumerate}
+\end{document}
